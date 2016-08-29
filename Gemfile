@@ -24,3 +24,4 @@ gem "minima"
 # end
 
 gem "jekyll-paginate", "1.1.0"
+gem "pygments.rb", "0.6.3"

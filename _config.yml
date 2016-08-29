@@ -1,5 +1,5 @@
-name: Your New Jekyll Site
-description: Blogging about stuffs
+name: ham1955burger
+description: burgerburger
 meta_description: "Your New Jekyll Site, Blogging about stuffs"
 
 markdown: kramdown
@@ -13,4 +13,4 @@ gems: [jekyll-paginate]
 
 # Details for the RSS feed generator
 url:            'https://ham1955burger.github.io'
-author:         'Your Name'
+author:         'ham1955burger'

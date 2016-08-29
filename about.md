@@ -1,6 +1,8 @@
 ---
 layout: page
-title: About me 
+title: About me
 ---
 
-This is a static page. It could be an 'about page' if you'd like.
+I like HAMBURGER!!!!!!
+
+![대체텍스트](/assets/images/1955burger.png "이미지제목")

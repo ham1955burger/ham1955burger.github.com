@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "ham 1955 burger first post!"
-date:   2016-08-28 13:00:00
+date:   2016-08-29 13:00:00 +0900
 categories: Thriller
 ---
 

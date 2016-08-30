@@ -1,10 +1,10 @@
 ---
 layout: post
-title:  "Heroku Python Django Rest"
+title:  "Heroku Python"
 date:   2016-08-30 11:45:00 + 0900
 categories: Study
 ---
-<h4> Heroku Python </h4>
+<h4> Heroku Python (Django REST) </h4>
 : PaaS(개발을 위한 플랫폼 구축을 할 필요 없이 필요한 개발 요소들을 웹에서 쉽게 빌려쓸 수 있게 하는 모델)
 
 ---
@@ -60,6 +60,7 @@ categories: Study
       $ cd [clone_folder]
 
   **주의!** Heroku를 사용하기 위해선 아래와 같은 파일이 추가 및 수정되어야 함
+
     * 추가할 파일(<u>App의 root에 위치</u>)
 
       * Procfile : Heroku에 Django app을 돌리기 위한 파일
@@ -67,6 +68,7 @@ categories: Study
             <!-- Procfile -->
 
             web: gunicorn [app_name].wsgi --log-file -
+
 
       * requirements.txt : 필요한 dependency 모음 파일
 
@@ -80,6 +82,7 @@ categories: Study
             dj-database-url==0.3.0
             gunicorn==19.6.0
 
+
       * runtime.txt : 실행전 컴파일 파일. 기본으로 python2.7(?)이 도는데 다른 버전이면 추가하여 그 버전으로 돌게 해야함
 
         현재 필자가 사용하는 Django rest project는 python v3.5.2를 사용
@@ -87,6 +90,7 @@ categories: Study
             <!-- runtime.txt -->
 
             python-3.5.2
+
 
       * app.json : ..모름...기본적인 정보 정의해주는거 같은데 없어도 무관하였음
 

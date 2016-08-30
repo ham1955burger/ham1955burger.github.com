@@ -13,15 +13,9 @@ categories: Study
 
   [Heroku 공식 홈페이지](https://www.heroku.com/)
 
-* Setuptools 및 Pip설치
+* Pip설치
 
-  * Setuptools
-
-    &nbsp;&nbsp;&nbsp;&nbsp;[https://pypi.python.org/pypi/setuptools](https://pypi.python.org/pypi/setuptools)
-
-  * Pip
-
-    &nbsp;&nbsp;&nbsp;&nbsp;[ http://codingdojang.com/scode/371]( http://codingdojang.com/scode/371)
+  &nbsp;&nbsp;&nbsp;&nbsp;[ http://codingdojang.com/scode/371]( http://codingdojang.com/scode/371)
 
 * Virtualenv 설치(= virtualenvwrapper)
 
@@ -69,7 +63,6 @@ categories: Study
 
             web: gunicorn [app_name].wsgi --log-file -
 
-
       * requirements.txt : 필요한 dependency 모음 파일
 
             <!-- requirements.txt -->
@@ -82,15 +75,13 @@ categories: Study
             dj-database-url==0.3.0
             gunicorn==19.6.0
 
-
       * runtime.txt : 실행전 컴파일 파일. 기본으로 python2.7(?)이 도는데 다른 버전이면 추가하여 그 버전으로 돌게 해야함
 
-        현재 필자가 사용하는 Django rest project는 python v3.5.2를 사용
+        현재 필자가 사용하는 Django REST project는 python v3.5.2를 사용
 
             <!-- runtime.txt -->
 
             python-3.5.2
-
 
       * app.json : ..모름...기본적인 정보 정의해주는거 같은데 없어도 무관하였음
 

@@ -15,11 +15,11 @@ categories: Study
 
 * Pip설치
 
-  &nbsp;&nbsp;&nbsp;&nbsp;[ http://codingdojang.com/scode/371]( http://codingdojang.com/scode/371)
+  [ http://codingdojang.com/scode/371]( http://codingdojang.com/scode/371)
 
 * Virtualenv 설치(= virtualenvwrapper)
 
-  &nbsp;&nbsp;&nbsp;&nbsp;[https://github.com/kennethreitz/python-guide/blob/master/docs/dev/virtualenvs.rst](https://github.com/kennethreitz/python-guide/blob/master/docs/dev/virtualenvs.rst)
+  [https://github.com/kennethreitz/python-guide/blob/master/docs/dev/virtualenvs.rst](https://github.com/kennethreitz/python-guide/blob/master/docs/dev/virtualenvs.rst)
 
 * Postgres 설치
 

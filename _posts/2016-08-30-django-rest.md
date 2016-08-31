@@ -5,7 +5,6 @@ date:   2016-08-30 15:20:00 + 0900
 categories: Study
 ---
 <h4> Django </h4>
-
 : Python으로 만들어진 무료 오픈소스 웹 어플리케이션 프레임워크
 
 [Django 공식 홈페이지](https://www.djangoproject.com)
@@ -93,9 +92,6 @@ categories: Study
     ├── manage.py
     ├── project_wordbook
     │   ├── __init__.py
-    │   ├── __pycache__
-    │   │   ├── __init__.cpython-35.pyc
-    │   │   └── settings.cpython-35.pyc
     │   ├── settings.py
     │   ├── urls.py
     │   └── wsgi.py
@@ -237,32 +233,16 @@ categories: Study
       ├── manage.py
       ├── project_wordbook
       │   ├── __init__.py
-      │   ├── __pycache__
-      │   │   ├── __init__.cpython-35.pyc
-      │   │   ├── settings.cpython-35.pyc
-      │   │   ├── urls.cpython-35.pyc
-      │   │   └── wsgi.cpython-35.pyc
       │   ├── settings.py
       │   ├── urls.py
       │   └── wsgi.py
       └── wordbook
           ├── __init__.py
-          ├── __pycache__
-          │   ├── __init__.cpython-35.pyc
-          │   ├── admin.cpython-35.pyc
-          │   ├── apps.cpython-35.pyc
-          │   ├── models.cpython-35.pyc
-          │   ├── serializers.cpython-35.pyc
-          │   ├── urls.cpython-35.pyc
-          │   └── views.cpython-35.pyc
           ├── admin.py
           ├── apps.py
           ├── migrations
           │   ├── 0001_initial.py
-          │   ├── __init__.py
-          │   └── __pycache__
-          │       ├── 0001_initial.cpython-35.pyc
-          │       └── __init__.cpython-35.pyc
+          │   └── __init__.py
           ├── models.py
           ├── serializers.py
           ├── tests.py

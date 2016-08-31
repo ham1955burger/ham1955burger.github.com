@@ -77,7 +77,7 @@ categories: Study
 
       * runtime.txt : 실행전 컴파일 파일. 기본으로 python2.7(?)이 도는데 다른 버전이면 추가하여 그 버전으로 돌게 해야함
 
-        현재 필자가 사용하는 Django REST project는 python v3.5.2를 사용
+        현재 내 Django REST project는 python v3.5.2를 사용
 
             <!-- runtime.txt -->
 

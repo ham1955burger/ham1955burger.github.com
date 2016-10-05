@@ -54,21 +54,21 @@ categories: Study
 
 * python-memcached를 cached db로 설정
 
-      {% highlight python %}
-      # project_wordbook/settings.py
+  {% highlight python %}
+    # project_wordbook/settings.py
 
-      INSTALLED_APPS = [
-      ...,
-      'sorl.thumbnail',
-      ]
+    INSTALLED_APPS = [
+    ...,
+    'sorl.thumbnail',
+    ]
 
-      CACHES = {
-        'default': {
-            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-            'LOCATION': '127.0.0.1:11211',
-        }
+    CACHES = {
+      'default': {
+          'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+          'LOCATION': '127.0.0.1:11211',
       }
-      {% endhighlight %}
+    }
+  {% endhighlight %}
 
 * cached DB에 KVStore table 만들기
 
@@ -88,67 +88,94 @@ categories: Study
   	     Rendering model states... DONE
   	     Applying thumbnail.0001_initial... OK
 
-* model 수정
+  * KVStore table이 잘 만들어졌는지 확인하기
 
-  기존 Word table에 image field 추가
+    * sqlite3 접속
+
+          $ sqlite3 db.sqlite3
+
+    * sqlite3 table 목록 보기
+
+      **thumbnail_kvstore** table이 생성된 것을 볼 수 있다.
+
+          sqlite> .tables
+          auth_group                  django_admin_log          
+          auth_group_permissions      django_content_type       
+          auth_permission             django_migrations         
+          auth_user                   django_session            
+          auth_user_groups            thumbnail_kvstore         
+          auth_user_user_permissions  wordbook_word
+
+* models.py
+
+  model schema가 바뀐게 아니므로, migrate 할 필요 없다.
+
   {% highlight python %}
+    # wordbook/models.py
 
-  # wordbook/models.py
+    ...
+    from sorl.thumbnail import delete
 
-  from django.db import models
-
-  class Word(models.Model):
-      created = models.DateTimeField(auto_now_add=True)
-      word = models.CharField(max_length=100)
-      mean = models.CharField(max_length=100)
-      example = models.TextField()
-      image = models.ImageField()
-
-      class Meta:
-          ordering = ('created', )
+    class Word(models.Model):
+      ...
+      def delete(self, *args, **kwargs):
+            # 순서주의! cached db에서 지워준 후, 본 db에서 삭제
+            delete(self.image)
+            # 파일 경로에 있는 사진 제거
+            self.image.delete()
+            super(Word, self).delete(*args, **kwargs)
   {% endhighlight %}
 
-  * migration 파일 만들기
+* serializers.py
+  {% highlight python %}
+    # wordbook/models.py
+    ...
+    from sorl.thumbnail import get_thumbnail
+    from sorl.thumbnail import delete
 
-        $ python manage.py makemigrations
-        SystemCheckError: System check identified some issues:
+    class WordSerializer(serializers.Serializer):
+      ...
+      image_thumb_file = serializers.SerializerMethodField('get_thumb',
+                                                          read_only=True)
 
-        ERRORS:
-        wordbook.Word.image: (fields.E210) Cannot use ImageField because Pillow is not installed.
-        HINT: Get Pillow at https://pypi.python.org/pypi/Pillow or run command "pip install Pillow".
+      def get_thumb(self, obj):
+          # 100x100의 size 으로 thumbail 가져오기
+          thumbUrl = get_thumbnail(obj.image, '100x100',
+                                  crop='center', quality=99).url
+          return settings.IMAGE_SERVER_URL + thumbUrl
+      ...
+      def update(self, instance, validated_data):
+            if instance.image != validated_data.get('image', instance.image):
+                # 기존 image과 현재 image이 다르면 파일 경로에서 기존 image 삭제
+                os.remove(os.path.join(settings.MEDIA_ROOT,
+                                      instance.image.path))
+                # cached db에 있는 thumbnail도 제거
+                delete(instance.image)
+            ...
 
-    *괜찮아. 쫄거없어*
+  {% endhighlight %}
 
-    models.ImageField()를 사용하기 위해선 **Pillow**가 설치되어 있어야 한다.
+  * 확인하기
 
-    * Pillow 설치
+    데이터를 생성한뒤 response값을 보면, `image_thumb_url`이 추가 된 것을 볼 수 있다.
 
-          $ pip install Pillow
+    ![sorl_thumbnail_success](/assets/images/django-rest-image-with-sorl/sorl_thumbnail_success.png)
 
-    다시한번 migration 파일 만들기
+    cache db에 생성된 값이며, /uploaded_files 하위에 thumb file이 존재하게 된 것을 볼 수 있다.
 
-        $ python manage.py makemigrations
-        You are trying to add a non-nullable field 'image' to word without a default; we can't do that (the database needs something to populate existing rows).
-        Please select a fix:
-        1) Provide a one-off default now (will be set on all existing rows with a null value for this column)
-        2) Quit, and let me add a default in models.py
-        Select an option:
+    ![sorl_thumbnail_folder](/assets/images/django-rest-image-with-sorl/sorl_thumbnail_folder.png)
 
-    *괜찮아. 쫄거없어2*
+    `image_url`과 `image_thumb_url`의 경로로 접속하면,
 
-    => 너 요번에 imageField 넣을거면, 기존에 Word table에 있던 값들의 imageField엔 어떤 값을 넣을꺼야? 1) 뭐 넣을지 너가 입력할래? 2) models.py을 수정할래? 난 옵션 1 선택 `Select an option: 1`
+    `image_url`은 원본, `image_thumb_url`은 100x100의 이미지로 접근 가능 한 것을 볼 수 있다.
 
-        Please enter the default value now, as valid Python
-        The datetime and django.utils.timezone modules are available, so you can do e.g. timezone.now
-        Type 'exit' to exit this prompt
-        >>>
+    또, sqlite로 접속하여 thumbnail_kvstore의 데이터를 조회하여보면
 
-    => 기존에 있던 값들의 imageField에 뭐 넣을거야? `>>> 1` 1 넣을거야
+    아래와 같이 key/value 형태로 데이터가 저장되어있는 것을 볼 수 있다.
 
-        Migrations for 'wordbook':
-        wordbook/migrations/0002_word_image.py:
-        - Add field image to word
+        sqlite> select * from thumbnail_kvstore;
+        sorl-thumbnail||image||4979b760fffcde37c05a435b9e4c66d4|{"name": "apple.jpg", "size": [420, 288], "storage": "django.core.files.storage.FileSystemStorage"}
+sorl-thumbnail||image||2eb85afd5cab0441d74315a9947977c3|{"name": "cache/fd/0c/fd0c84549a45d0627ba2a9627f094913.jpg", "size": [100, 100], "storage": "django.core.files.storage.FileSystemStorage"}
+sorl-thumbnail||thumbnails||4979b760fffcde37c05a435b9e4c66d4|["2eb85afd5cab0441d74315a9947977c3"]
 
-    *(후)*
-
-    다음번에 마저 정리하는걸로..
+    데이터 삭제 후 폴더 구조와 thumbnail_kvstore의 데이터를 조회 해보면 깨끗하게 지워진 것도 확인 할 수 있다.

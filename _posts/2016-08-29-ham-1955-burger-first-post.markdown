@@ -3,6 +3,7 @@ layout: post
 title:  "ham 1955 burger first post!"
 date:   2016-08-29 13:00:00 +0900
 categories: Thriller
+published: false
 ---
 
 You'll find this post in your `_posts` directory - edit this post and re-build (or run with the `-w` switch) to see your changes!

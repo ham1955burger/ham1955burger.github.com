@@ -19,7 +19,7 @@ categories: Study
 
 <h4> 목표 </h4>
 
-: Django REST Framework를 사용하여 간단한 단어장을 만들어보자.
+: Django REST Framework를 사용하여 이미지가 있는 단어장을 만들어보자.
 
 ---
 
@@ -86,7 +86,7 @@ categories: Study
 
       $ python manage.py startapp wordbook
 
-*현재 tree 구조*
+*현재 폴더 구조*
 
     project_wordbook/
     ├── manage.py
@@ -105,15 +105,22 @@ categories: Study
         ├── tests.py
         └── views.py
 
-* rest_framework와 app을 project_wordbook/settings.py에 정의하기
+* project_wordbook/settings.py
+      {% highlight python %}
+        # project_wordbook/settings.py
 
-      <!-- project_wordbook/settings.py -->
-
-      INSTALLED_APPS = (
         ...
-        'rest_framework',
-        'wordbook.apps.WordbookConfig',
-      )
+        IMAGE_SERVER_URL = 'http://127.0.0.1:8000' # image server url 설정
+        MEDIA_URL = '/uploads/' # image 접근 url 설정
+        MEDIA_ROOT = os.path.join(BASE_DIR, 'uploaded_files') # image 경로 설정
+        ...
+        INSTALLED_APPS = (
+          ...
+          'rest_framework', # rest_framework 추가
+          'wordbook.apps.WordbookConfig', # app 추가
+        )
+        ...
+      {% endhighlight %}
 
 * model 만들기
 
@@ -127,12 +134,35 @@ categories: Study
         word = models.CharField(max_length=100)
         mean = models.CharField(max_length=100)
         example = models.TextField()
+        image = models.ImageField()
 
         class Meta:
             ordering = ('created', )
+
+        def delete(self, *args, **kwargs):
+              # 파일 경로에 있는 사진 제거
+              self.image.delete()
+              super(Word, self).delete(*args, **kwargs)
   {% endhighlight %}
 
 * model migration 파일 만들기
+
+      $ python manage.py makemigrations wordbook
+      SystemCheckError: System check identified some issues:
+
+      ERRORS:
+      wordbook.Word.image: (fields.E210) Cannot use ImageField because Pillow is not installed.
+      HINT: Get Pillow at https://pypi.python.org/pypi/Pillow or run command "pip install Pillow".
+
+  *괜찮아. 쫄거없어*
+
+  models.ImageField()를 사용하기 위해선 **Pillow**가 설치되어 있어야 한다.
+
+  * Pillow 설치
+
+        $ pip install Pillow
+
+* 다시 한번 migration 파일 만들기
 
       $ python manage.py makemigrations wordbook
       Migrations for 'wordbook':
@@ -162,17 +192,42 @@ categories: Study
         Applying wordbook.0001_initial... OK
 
 * wordbook/serializers.py
-
   {% highlight python %}
-      # wordbook/serializers.py
+    # wordbook/serializers.py
 
-      from rest_framework import serializers
-      from wordbook.models import Word
+    from rest_framework import serializers
+    from wordbook.models import Word
+    import os
+    from django.conf import settings
 
-      class WordSerializer(serializers.ModelSerializer):
-          class Meta:
-              model = Word
-              fields = ('pk', 'created', 'word', 'mean', 'example')
+    class WordSerializer(serializers.Serializer):
+      pk = serializers.IntegerField(read_only=True)
+      created = serializers.DateTimeField(read_only=True)
+      word = serializers.CharField(required=True, max_length=100)
+      mean = serializers.CharField(max_length=100)
+      # example은 model에서 TextField()로 정의되어 있지만,
+      # serializers는 TextField()를 지원하지 않으므로 CharField()로 변경
+      example = serializers.CharField()
+      image = serializers.ImageField(write_only=True)
+      image_url = serializers.SerializerMethodField('get_image', read_only=True)
+
+      def get_image(self, obj):
+          imageUrl = obj.image.url
+          return settings.IMAGE_SERVER_URL + imageUrl
+
+      def create(self, validated_data):
+          return Word.objects.create(**validated_data)
+
+      def update(self, instance, validated_data):
+          if instance.image != validated_data.get('image', instance.image):
+              # 기존 image와 현재 image가 다르면 파일 경로에서 기존 image 삭제
+              os.remove(os.path.join(settings.MEDIA_ROOT, instance.image.path))
+
+          instance.word = validated_data.get('word', instance.word)
+          instance.mean = validated_data.get('mean', instance.mean)
+          instance.example = validated_data.get('example', instance.example)
+          instance.save()
+          return instance
   {% endhighlight %}
 
 * wordbook/views.py
@@ -184,10 +239,20 @@ categories: Study
       from wordbook.serializers import WordSerializer
       from rest_framework import generics
       from rest_framework.response import Response
+      from rest_framework import status
 
       class WordList(generics.ListCreateAPIView):
           queryset = Word.objects.all()
           serializer_class = WordSerializer
+
+          def post(self, request):
+                serializer = WordSerializer(data=request.data)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response(serializer.data,
+                                    status=status.HTTP_201_CREATED)
+                return Response(serializer.errors,
+                                status=status.HTTP_400_BAD_REQUEST)
 
       class WordDetail(generics.RetrieveUpdateDestroyAPIView):
           queryset = Word.objects.all()
@@ -195,11 +260,21 @@ categories: Study
 
           def put(self, request, pk, format=None):
               wordObj = Word.objects.get(pk=pk)
-             serializer = WordSerializer(wordObj, data=request.data, partial=True)
-             if serializer.is_valid():
-                 serializer.save()
-                 return Response(serializer.data)
-             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+              # partial=True 옵션을 주지 않으면,
+              # 필요한 모든 field의 값을 주어야 수정이 가능하다.
+              serializer = WordSerializer(wordObj,
+                                          data=request.data,
+                                          partial=True)
+              if serializer.is_valid():
+                  serializer.save()
+                  return Response(serializer.data)
+              return Response(serializer.errors,
+                              status=status.HTTP_400_BAD_REQUEST)
+
+          def delete(self, request, pk, format=None):
+              wordObj = Word.objects.get(pk=pk)
+              wordObj.delete()
+              return Response(status=status.HTTP_404_NOT_FOUND)
   {% endhighlight %}
 
 * wordbook/urls.py
@@ -209,11 +284,19 @@ categories: Study
 
       from django.conf.urls import url
       from wordbook import views
+      from django.conf.urls.static import static
+      from django.conf import settings
 
       urlpatterns = [
           url(r'^wordbook/$', views.WordList.as_view()),
           url(r'^wordbook/(?P<pk>[0-9]+)/$', views.WordDetail.as_view()),
       ]
+
+      if settings.DEBUG:
+          urlpatterns += static(
+              # MEDIA_URL로 image 접근 가능하게 함
+              settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
+          )
   {% endhighlight %}
 
 * project_wordbook/urls.py
@@ -275,7 +358,40 @@ categories: Study
 
   아래와 같이 단어가 등록된 것을 볼 수 있다.
 
+  setting에 설정한 데로 이미지 url은 `/upload/`인 것을 볼 수 있다
+
   ![post_success](/assets/images/django-rest/post_success.png)
+
+  *현재 폴더 구조*
+
+  *setting에 설정한 데로 `root/uploaded_files/1955burger.png`의 경로로 이미지가 upload된 것을 볼 수 있다*
+
+      project_wordbook/
+      ├── db.sqlite3
+      ├── manage.py
+      ├── project_wordbook
+      │   ├── __init__.py
+      │   ├── __pycache__
+      │   ├── settings.py
+      │   ├── urls.py
+      │   └── wsgi.py
+      ├── uploaded_files
+      │   └── 1955burger.png
+      └── wordbook
+          ├── __init__.py
+          ├── __pycache__
+          ├── admin.py
+          ├── apps.py
+          ├── migrations
+          │   ├── 0001_initial.py
+          │   ├── 0002_word_image.py
+          │   ├── __init__.py
+          │   └── __pycache__
+          ├── models.py
+          ├── serializers.py
+          ├── tests.py
+          ├── urls.py
+          └── views.py
 
 * PUT
 
@@ -311,3 +427,5 @@ categories: Study
   ![empty_list](/assets/images/django-rest/empty_list.png)
 
   역시 삭제된 것을 볼 수 있다.
+
+  또, root/uploaded_files/ 경로에 가보면 1955burger.png도 삭제된 것도 볼 수 있다.

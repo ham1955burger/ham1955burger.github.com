@@ -22,19 +22,17 @@ Disqus 회원이 아니더라도 댓글을 달 수 있고, Twitter와 Facebook�
 
   [Disqus 공식 홈페이지](https://disqus.com/home/explore/)
 
+* Disqus에서 가입한 email로 verify메일 확인
+
 * Disqus 회원 정보 수정
 
-  * 로그인 후 > 우측 상단 > View Profile 선택
+  * 로그인 후 > 우측 상단 > View Profile 선택 > Edit Profile 선택
 
   ![disqus_view_profile](/assets/images/disqus/disqus_view_profile.png)
 
-  * Edit Profile 선택
-
-  ![disqus_edit_profile](/assets/images/disqus/disqus_edit_profile.png)
-
   * 알맞은 정보 입력 후 Save
 
-  ![disqus_edit_profile2](/assets/images/disqus/disqus_edit_profile2.png)
+  ![disqus_edit_profile2](/assets/images/disqus/disqus_edit_profile.png)
 
 * Disqus 설정
 
@@ -111,11 +109,13 @@ Disqus 회원이 아니더라도 댓글을 달 수 있고, Twitter와 Facebook�
 
   ![disqus_comment_form](/assets/images/disqus/disqus_comment_form.png)
 
-  * ***추가)** 댓글 기능을 사용하기 전에 Disqus에서 가입한 email로 verify메일이 와있는데 확인 해줘야 한다.*
+  ---
 
-  ![disqus_verity_email](/assets/images/disqus/disqus_verify_email.png)
+  <h4> 추가 </h4>
 
-  * ***추가)** Disqus 회원이 아닌 사람들도 comment 작성이 가능하게 설정하기*
+  * *Disqus 회원이 아닌 사람들도 comment 작성이 가능하게 설정하기*
+
+    ~~스팸봇의 테러 위험으로 잘 사용하지 않는다고 한다(?)~~
 
     Disqus Home -> 우측 상단 Admin -> Settings -> Community
 

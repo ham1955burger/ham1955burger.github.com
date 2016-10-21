@@ -19,7 +19,10 @@ categories: Study
 
 ---
 
-<h4> #1 Core Data 설정하기 </h4>
+* <h4> #1 Core Data 설정하기 </h4>
+
+
+* [#2 Core Data를 이용해 Record 다뤄보기](https://ham1955burger.github.io/study/2016/10/20/iOS-coredata-in-chapter-2.html)
 
 ---
 
@@ -27,19 +30,19 @@ categories: Study
 
 * Use Core Data 선택 후 생성
 
-  ![coredata_create_project](/assets/images/coreData/coredata_create_project.png)
+  ![coredata_create_project](/assets/images/coreData_chapter_1/coredata_create_project.png)
 
   기존 프로젝트에선 Xcode navigation bar > File > New > File > Core Data > Data Model 로 생성 가능
 
 * Project 구조를 보면, `CoreDataTest.xcdatamodeld` 파일을 볼 수 있다.
 
-  ![coredata_tree](/assets/images/coreData/coredata_tree.png)
+  ![coredata_tree](/assets/images/coreData_chapter_1/coredata_tree.png)
 
 * `AppDelegate.swift`에 아래와 같은 코드가 자동으로 추가 된 것을 볼 수 있다.
 
   *자동 추가 되는 이유가 있을텐데, 현재 이 게시글은 아래 코드를 사용하지 않는다(...)*
 
-  ![coredata_appdelegate_auto_added_code](/assets/images/coreData/coredata_appdelegate_auto_added_code.png)
+  ![coredata_appdelegate_auto_added_code](/assets/images/coreData_chapter_1/coredata_appdelegate_auto_added_code.png)
 
 ---
 <h4> Database Schema 만들기 </h4>
@@ -60,7 +63,9 @@ CoreData에서는 Table은 `Entity`, Field는 `Attribute`, ForeignKey는 `Relati
 
 * **Schema**
 
-  ![coredata_schema](/assets/images/coreData/coredata_schema.png)
+
+  ![coredata_schema](/assets/images/coreData_chapter_1/coredata_schema.png)
+
 
 * **Entity 만들기**
 
@@ -68,31 +73,31 @@ CoreData에서는 Table은 `Entity`, Field는 `Attribute`, ForeignKey는 `Relati
 
   * Room
 
-  ![coredata_create_schema](/assets/images/coreData/coredata_create_schema.png)
+  ![coredata_create_schema](/assets/images/coreData_chapter_1/coredata_create_schema.png)
 
   * Chat
 
-  ![coredata_create_schema2](/assets/images/coreData/coredata_create_schema2.png)
+  ![coredata_create_schema2](/assets/images/coreData_chapter_1/coredata_create_schema2.png)
 
   Editor Style을 변경하면 Graph 형식으로 볼 수도 있다!
 
-  ![coredata_editor_style](/assets/images/coreData/coredata_editor_style.png)
+  ![coredata_editor_style](/assets/images/coreData_chapter_1/coredata_editor_style.png)
 
 * **Relationship 설정하기**
 
   * Room
 
-  ![coredata_relationship_room](/assets/images/coreData/coredata_relationship_room.png)
+  ![coredata_relationship_room](/assets/images/coreData_chapter_1/coredata_relationship_room.png)
 
   * Chat
 
-  ![coredata_relationship_chat](/assets/images/coreData/coredata_relationship_chat.png)
+  ![coredata_relationship_chat](/assets/images/coreData_chapter_1/coredata_relationship_chat.png)
 
   선이 생겼다! 뭔가 이어진듯한 느낌!
 
   화살표는 Entity사이의 관계를 나타내는데 Default로 To One type으로 설정된다.
 
-  ![coredata_editor_style_relationship](/assets/images/coreData/coredata_editor_style_relationship.png)
+  ![coredata_editor_style_relationship](/assets/images/coreData_chapter_1/coredata_editor_style_relationship.png)
 
   Room과 Chat의 관계는 1:N 관계이므로 수정하자.
 
@@ -102,13 +107,13 @@ CoreData에서는 Table은 `Entity`, Field는 `Attribute`, ForeignKey는 `Relati
 
   *나는 어느 Relationship에서 Type 설정을 해줘야하는지 좀 헷갈렸다. 사실 N:1관계로 설정해 놓고 삽질을 하기도 했다(...)*
 
-  ![coredata_relationship_setting](/assets/images/coreData/coredata_relationship_setting.png)
+  ![coredata_relationship_setting](/assets/images/coreData_chapter_1/coredata_relationship_setting.png)
 
   Graph Style로 봤을때, Room과 Chat의 관계에 화살표가 2개가 생긴것으로 To Many type으로 바뀐 것을 확인 할 수 있다.
 
-  ![coredata_editor_style_relationship2](/assets/images/coreData/coredata_editor_style_relationship2.png)
+  ![coredata_editor_style_relationship2](/assets/images/coreData_chapter_1/coredata_editor_style_relationship2.png)
 
-* **Retched Properties 설정하기**
+* **Fetched Properties 설정하기**
 
   *얘는 자료를 못찾았다.. 현재 코드에서 설정해주었는데 이는 추후 다른 chapter에서 다루도록 하겠다.*
 
@@ -116,7 +121,7 @@ CoreData에서는 Table은 `Entity`, Field는 `Attribute`, ForeignKey는 `Relati
 
   Xcode Navigation bar > Edit > Create NSManagedObject Subclass... 선택
 
-  ![coredata_create_manage_object_subclass](/assets/images/coreData/coredata_create_manage_object_subclass.png)
+  ![coredata_create_manage_object_subclass](/assets/images/coreData_chapter_1/coredata_create_manage_object_subclass.png)
 
   아래와 같은 파일들이 자동 생성 되었다!
 
@@ -124,7 +129,7 @@ CoreData에서는 Table은 `Entity`, Field는 `Attribute`, ForeignKey는 `Relati
 
   추후 이 변수들로 database에 접근 할 수 있다. (ORM의 개념이라고 보면 되고, 파일이 없어도 직접 접근의 방식으로 접근할 수도 있다.)
 
-  ![coredata_create_manage_object_subclass2](/assets/images/coreData/coredata_create_manage_object_subclass2.png)
+  ![coredata_create_manage_object_subclass2](/assets/images/coreData_chapter_1/coredata_create_manage_object_subclass2.png)
 
 ---
 <h4> Core Data Stack </h4>
@@ -157,6 +162,7 @@ CoreData에서는 Table은 `Entity`, Field는 `Attribute`, ForeignKey는 `Relati
       var coordinator: NSPersistentStoreCoordinator? = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
       let url = self.applicationDocumentsDirectory.appendingPathComponent("CoreDataTest.sqlite")
 
+      // CoreDataTest.sqlite file path
       print(url)
 
       var error: NSError? = nil
@@ -195,9 +201,31 @@ CoreData에서는 Table은 `Entity`, Field는 `Attribute`, ForeignKey는 `Relati
   {% endhighlight %}
 
 ---
+
+<h4> 근데 CoreDataTest.sqlite 파일은 어디있지? </h4>
+
+*분명 설정은 다 했는데! build successed 후 앱도 띄웠는데!! Database가 잘 만들어졌나 확인 해보고싶은데!!! Project폴더를 아무리 찾아봐도 .sqlite파일이 없다!!!!*
+
+.sqlite파일은 Application Documents Directory에 숨어있다.
+
+방금 AppDelegate.swift에 코드를 추가한 부분을 다시한번 살펴보자.
+
+persistentStoreCoordinator 부분, CoreDataTest.sqlite의 file path를 확인하기 위해 log를 찍어보았다.
+
+    Optional(file:///Users/user/Library/Developer/CoreSimulator/Devices/6C38CD42-5BAD-4F01-A408-AB84A943B3AA/data/Containers/Data/Application/962E06FB-2848-408B-8260-CA0A50B2DF88/Documents/CoreDataTest.sqlite)
+
+App Store에서 `Datum Free`라는 sqlite database viewer를 설치하여 CoreDataTest.sqlite를 열어보았다.
+
+내가 만든 Entity와 Attribute 대로 DB가 만들어진 것을 확인 할 수 있다.
+
+![coredata_open_sqlite](/assets/images/coreData_chapter_1/coredata_open_sqlite.png)
+
+
+---
+
 <h4> 마무리 </h4>
 
-  너무 길어져서 Select, Insert, Update, Delete는 #2에서 진행하도록 한다.
+  너무 길어져서 Insert, Update, Delete는 #2에서 진행하도록 한다.
 
 ---
 <h4> 참고 </h4>

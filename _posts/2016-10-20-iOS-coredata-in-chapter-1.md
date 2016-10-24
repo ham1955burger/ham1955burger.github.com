@@ -10,7 +10,7 @@ categories: Study
 ---
 <h4> 목표 </h4>
 
-: CoreData를 이용해 Database Table을 만들어 보고, Record를 Insert, Update, Delete 해보자.
+: CoreData를 이용해 Database Table을 만들어 보고, Record를 Insert, Select, Update, Delete 해보자.
 
 
 : 방이 있는 채팅창 만들기
@@ -225,7 +225,7 @@ App Store에서 `Datum Free`라는 sqlite database viewer를 설치하여 CoreDa
 
 <h4> 마무리 </h4>
 
-  너무 길어져서 Insert, Update, Delete는 #2에서 진행하도록 한다.
+너무 길어져서 Insert, Select, Update, Delete는 #2에서 진행하도록 한다.
 
 ---
 <h4> 참고 </h4>

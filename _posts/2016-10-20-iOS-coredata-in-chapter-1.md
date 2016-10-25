@@ -1,11 +1,13 @@
 ---
 layout: post
-title:  "iOS Core Data in Swift #1"
+title:  "iOS Core Data in Swift #1 설정하기"
 date:   2016-10-20 10:16:00 +09
 categories: Study
 ---
 <h4> Core Data Framework </h4>
-: 앱 내부의 Database(sqlite3)를 SQL없이 접근 가능 하게 해주는(wrapping) Framework
+: 앱 내부의 Database(sqlite)를 SQL없이 접근 가능 하게 해주는(wrapping) Framework
+
+: Model
 
 ---
 <h4> 목표 </h4>
@@ -21,8 +23,9 @@ categories: Study
 
 * <h4> #1 Core Data 설정하기 </h4>
 
+* [#2 Core Data를 이용해 Record 다뤄보기](https://ham1955burger.github.io/study/2016/10/21/iOS-coredata-in-chapter-2.html)
 
-* [#2 Core Data를 이용해 Record 다뤄보기](https://ham1955burger.github.io/study/2016/10/20/iOS-coredata-in-chapter-2.html)
+* [#3 Core Data Migration 하기](https://ham1955burger.github.io/study/2016/10/25/iOS-coredata-in-chapter-3.html)
 
 ---
 
@@ -225,7 +228,7 @@ App Store에서 `Datum Free`라는 sqlite database viewer를 설치하여 CoreDa
 
 <h4> 마무리 </h4>
 
-너무 길어져서 Insert, Select, Update, Delete는 #2에서 진행하도록 한다.
+너무 길어져서 Insert, Select, Update, Delete는 #2에서 정리하도록 한다.
 
 ---
 <h4> 참고 </h4>

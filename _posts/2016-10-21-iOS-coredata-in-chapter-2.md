@@ -1,27 +1,19 @@
 ---
 layout: post
-title:  "iOS Core Data in Swift #2"
+title:  "iOS Core Data in Swift #2 Record 다뤄보기"
 date:   2016-10-21 14:26:00 +09
 categories: Study
 ---
-<h4> Core Data Framework </h4>
-: 앱 내부의 Database(sqlite3)를 SQL없이 접근 가능 하게 해주는(wrapping) Framework
 
----
-<h4> 목표 </h4>
-
-: CoreData를 이용해 Database Table을 만들어 보고, Record를 Insert, Select, Update, Delete 해보자.
-
-
-: 방이 있는 채팅창 만들기
-
-*아직 CoreData에 대해 잘 알지 못하여 무작정 따라해 보는 것으로 정리한다. 추후 깨달음이 있으면 수정하는걸로..*
+#1에 이어서 Core Data를 이용해 Record 다루는 법을 정리하도록 하겠다.
 
 ---
 
 * [#1 Core Data 설정하기](https://ham1955burger.github.io/study/2016/10/20/iOS-coredata-in-chapter-1.html)
 
 * <h4> #2 Core Data를 이용해 Record 다뤄보기 </h4>
+
+* [#3 Core Data Migration 하기](https://ham1955burger.github.io/study/2016/10/25/iOS-coredata-in-chapter-3.html)
 
 ---
 

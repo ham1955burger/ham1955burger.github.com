@@ -13,7 +13,7 @@ Xcode 8로 Update 한 뒤로, Simulator에서 아래와 같은 이상한 log들�
     2016-10-27 13:55:02.662661 StoryboardReferenceTest[26108:5326664] subsystem: com.apple.UIKit, category: StatusBar, enable_level: 0, persist_level: 0, default_ttl: 0, info_ttl: 0, debug_ttl: 0, generate_symptoms: 0, enable_oversize: 1, privacy_setting: 2, enable_private_data: 0
     2016-10-27 13:55:02.779432 StoryboardReferenceTest[26108:5326664] subsystem: com.apple.BackBoardServices.fence, category: App, enable_level: 1, persist_level: 0, default_ttl: 0, info_ttl: 0, debug_ttl: 0, generate_symptoms: 0, enable_oversize: 0, privacy_setting: 0, enable_private_data: 0
 
-이 로그가 무얼 뜻하는지 찾아보았는데, 아래와 같은 답을 얻을 수 있었고 아직 고쳐지지 않은 듯 하다.
+이 로그들이 무얼 뜻하는지 찾아보았는데, 아래와 같은 답을 얻을 수 있었다.
 
     This is a known issue with Beta 4.  Per the release notes:
     Xcode Debug Console shows extra logging from system frameworks when debugging applications in the Simulator. (27331147, 26652255)

@@ -5,8 +5,6 @@ date:   2016-12-29 11:23:00 +09
 categories: Android
 ---
 
-[Android Developer ConstraintLayout 바로가기]("https://developer.android.com/training/constraint-layout")
-
 Android는 `XML`을 이용해 화면 구성을 한다.
 
 iOS의 화면 구성처럼 띡띡 갖다 붙이는게 아닌, text형식으로 화면을 구성하려니 익숙하지도 않고..
@@ -14,6 +12,8 @@ iOS의 화면 구성처럼 띡띡 갖다 붙이는게 아닌, text형식으로 �
 ~~(Android 해봐야지 하면서도 멀리했던게 화면 구성이었던거 같기도 하고.. 막상 하면 아무것도 아닌데..)~~
 
 Android Studio 2.2 버전부터 Constraint 를 지원한다고 하여 Study 할 겸 사용해 보았다.
+
+[Android Developer ConstraintLayout 바로가기](https://developer.android.com/training/constraint-layout/index.html#add-a-constraint)
 
 ---
 

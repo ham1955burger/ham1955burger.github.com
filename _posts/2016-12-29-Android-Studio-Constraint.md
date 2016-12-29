@@ -5,7 +5,7 @@ date:   2016-12-29 11:23:00 +09
 categories: Android
 ---
 
-[Android Developer ConstraintLayout 바로가기]("https://developer.android.com/training/constraint-layout/index.html#add-a-constraint")
+[Android Developer ConstraintLayout 바로가기]("https://developer.android.com/training/constraint-layout")
 
 Android는 `XML`을 이용해 화면 구성을 한다.
 

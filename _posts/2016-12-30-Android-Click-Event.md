@@ -13,7 +13,7 @@ categories: Android
 
 #### Layout을 Source code와 Bind하기
 
-xml에 있는 component들을 source code에서 사용하고자 할땐 아래와 같이 bind해줘야 한다.
+xml에 있는 view들을 source code에서 사용하고자 할땐 아래와 같이 bind해줘야 한다.
 
 {% highlight java %}
   ...
@@ -28,14 +28,14 @@ xml에 있는 component들을 source code에서 사용하고자 할땐 아래와
           // Bind할 xml파일
           setContentView(R.layout.activity_main);
 
-          // Component Bind
+          // View Bind
           wordEditText = (EditText) findViewById(R.id.wordEditText);
           toastButton = (Button) findViewById(R.id.toastButton);
       }
   }
 {% endhighlight %}
 
-Bind한 xml파일의 component 중 bind할 id값을 찾아 타입에 맞게 형 변환 시켜준다.
+Bind한 xml파일의 views 중 bind할 id값을 찾아 타입에 맞게 형 변환 시켜준다.
 
 이 id값은 xml에서 설정 한다. `android:id="@+id/toastButton"`
 
@@ -139,7 +139,7 @@ Bind한 xml파일의 component 중 bind할 id값을 찾아 타입에 맞게 형 
 
 ---
 
-~~정리하고보니.. 뭐 다를게 없네.......;~~
+~~정리하고보니.. 뭐 크게 다를게 없네...^^;~~
 
 보통 익명 클래스를 이용한 방법을 많이 쓰는 것 같고, 나도 이 방법을 주로 쓰고있다. 편하니깐.
 

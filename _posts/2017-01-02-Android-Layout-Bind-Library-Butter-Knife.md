@@ -52,7 +52,7 @@ Listener도 간단히 bind 할 수 있다.
   {% highlight java %}
     public class MainActivity extends Activity {
 
-      // Declaration & Bind
+      // Declaration, define & Bind
         @BindView(R.id.wordEditText) EditText wordEditText;
       //    @BindView(R.id.toastButton) Button toastButton;
 

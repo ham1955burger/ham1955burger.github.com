@@ -29,6 +29,14 @@ Serialization 기본으로 GSON을 쓴다. 잭쓴!으로 바꿔도 무방
 
 ---
 
+>#### Retrofit2 사용하기
+
+Retrofit2를 이용해 아래와 같은 GET방식의 간단한 서버 통신을 해보자.
+
+![get_household_account_book](/assets/images/android-http-library-retrofit2/get_household_account_book.png)
+
+---
+
 >#### Retrofit2 Download
 
   * Gradle > Retrofit2, Gson 추가
@@ -62,9 +70,84 @@ public class ServiceGenerator {
 }
 {% endhighlight %}
 
->#### Retrofit2 사용하기
+---
 
-  여러 케이스를 겪으며 더 사용해봐야 알겠지만 기본적인 기능을 사용해보며, 뉴비가 느낀 가장 큰 장점은 parameter annotation으로 가독성이 좋아 쉽게 느껴졌다는 점과 Callback의 return type을 지정 할 수 있어, 해당 object로 자동 mapping 해준다는 점.
+>#### Model Class 만들기
+
+Callback의 return type을 지정 할 수 있어, 해당 object로 자동 mapping 해주므로 API에 맞는 Data Model Class 생성.
+
+{% highlight java %}
+public class HouseholdAccountBook implements Serializable {
+    // api field 값
+    @SerializedName("pk")
+    // 내가 사용할 변수명
+    private int pk;
+    @SerializedName("state") private String state;
+    @SerializedName("price") private int price;
+    @SerializedName("date") private String date;
+    @SerializedName("category") private String category;
+    @SerializedName("memo") private String memo;
+
+    ...
+    // setter and getter method
+}
+{% endhighlight %}
+
+---
+
+>#### Interface 만들기
+
+Retrofit은 annotation와 method를 이용해 요청에 대한 정보를 서술한다.
+
+{% highlight java %}
+public interface InterfaceAPI {
+
+    // protocol 방식과, BASE_URL을 제외한 나머지 url
+    @GET("/list/")
+    // Method생성 /Callback의 return type지정 -> ArrayList<HouseholdAccountBook>
+    Call<ArrayList<HouseholdAccountBook>> getHABList();
+}
+{% endhighlight %}
+
+---
+
+>#### 서버에 요청 및 응답 받기
+
+{% highlight java %}
+
+InterfaceAPI apiService = ServiceGenerator.getClient().create(InterfaceAPI.class);
+
+    // interface에 서술되어 있는데로 서버에 요청
+    Call<ArrayList<HouseholdAccountBook>> call = apiService.getHABList();
+
+    // 비동기 방식으로 callback 받음(응답)
+    call.enqueue(new Callback<ArrayList<HouseholdAccountBook>>() {
+        @Override
+        public void onResponse(Call<ArrayList<HouseholdAccountBook>> call, Response<ArrayList<HouseholdAccountBook>> response) {
+            // 출력결과 : OK
+            Log.d(TAG, String.valueOf(response.message()));
+            // 출력결과 : 200
+            Log.d(TAG, String.valueOf(response.code()));
+
+            ArrayList<HouseholdAccountBook> list = response.body();
+            // 츨력결과 : 3
+            Log.d(TAG, String.valueOf(list.size());
+        }
+        @Override
+        public void onFailure(Call<ArrayList<HouseholdAccountBook>> call, Throwable t) {
+            Log.e(TAG, t.toString());
+        }
+    });
+
+{% endhighlight %}
+
+---
+
+여러 케이스를 겪으며 더 사용해봐야 알겠지만 간단한 GET 기능을 사용해보며, 뉴비가 느낀 가장 큰 장점은 parameter annotation으로 가독성이 좋다는 점과 Callback의 return type을 지정 및 자동 mapping 이었다.
+
+---
+
+>#### Retrofit2 더 알아보기
 
   [추후 링크 업데이트](https://www.google.com)
 

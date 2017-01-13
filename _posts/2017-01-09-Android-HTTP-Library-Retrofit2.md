@@ -5,21 +5,26 @@ date:   2017-01-09 10:39:00 +09
 categories: Android
 ---
 
-검색 해보니 Volley와 Retrofit2가 많이 쓰이는 것 같다.
+주관적으로 가장 기본적이면서 필요한, 그래서 제일 먼저 맞닥뜨리는 Library는 HTTP Library가 아닐까 싶다.
+~~서버 통신 하면 다 한거 아닌가요?~~ 검색 해보니 Volley와 Retrofit2가 많이 쓰이는 것 같다.
 
 Volley는 Google에서 만들었고, Retrofit2는 Square에서 만들었는데,
 ButterKnife를 만든 JakeWharton이 Square에 속해있고,
-Retrofit2를 관리하고 있다하여. 아무 이유 없이 Retrofit2로 결정.~~(단순)~~
+Retrofit2를 관리하고 있다하여 아무 이유 없이 Retrofit2로 결정.~~(단순)~~
+
+---
+
+>#### 연관글
+
+* ##### Android HTTP Library - Retrofit2
+
+* Android Retrofit2 Annotation 모음집
 
 ---
 
 >#### Retrofit2 란?
 
-앞서 설명했듯이 Square에서 만든 HTTP Library.
-
-Serialization 기본으로 GSON을 쓴다. 잭쓴!으로 바꿔도 무방
-
-[자세한 설명](https://realm.io/news/droidcon-jake-wharton-simple-http-retrofit-2/)[^1]은 생략. ~~사실 잘 모른다는...~~
+앞서 설명했듯이 Square에서 만든 HTTP Library. Serialization 기본으로 GSON을 쓴다. 잭쓴!(그 외에도 뭐)으로 바꿔도 무방. [자세한 설명](https://realm.io/news/droidcon-jake-wharton-simple-http-retrofit-2/)[^1]은 생략. ~~사실 잘 모른다는...~~
 
 [square/retrofit Github 바로가기](https://github.com/square/retrofit)
 
@@ -97,7 +102,7 @@ public class HouseholdAccountBook implements Serializable {
 
 >#### Interface 만들기
 
-Retrofit은 annotation와 method를 이용해 요청에 대한 정보를 서술한다.
+Retrofit은 parameter annotation과 method를 이용해 요청에 대한 정보를 서술한다. 다른 Protocol의 사용법도 아래와 같은 꼴.
 
 {% highlight java %}
 public interface InterfaceAPI {
@@ -106,6 +111,8 @@ public interface InterfaceAPI {
     @GET("/list/")
     // Method생성 /Callback의 return type지정 -> ArrayList<HouseholdAccountBook>
     Call<ArrayList<HouseholdAccountBook>> getHABList();
+
+    ...
 }
 {% endhighlight %}
 
@@ -143,13 +150,7 @@ InterfaceAPI apiService = ServiceGenerator.getClient().create(InterfaceAPI.class
 
 ---
 
-여러 케이스를 겪으며 더 사용해봐야 알겠지만 간단한 GET 기능을 사용해보며, 뉴비가 느낀 가장 큰 장점은 parameter annotation으로 가독성이 좋다는 점과 Callback의 return type을 지정 및 자동 mapping 이었다.
-
----
-
->#### Retrofit2 더 알아보기
-
-  [추후 링크 업데이트](https://www.google.com)
+여러 케이스를 겪으며 더 사용해봐야 알겠지만 간단하게 여기까지. 맛만 본 정도로. 다음번 게시글에선 여러가지 annotation을 좀 더 써보자.
 
 ---
 
